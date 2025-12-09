@@ -1,7 +1,10 @@
 #include "VCPlugInHeaders.h"
 
 // Interface includes:
+#include "IApplication.h"
+#include "IActionManager.h"
 #include "IMenuFilter.h"
+#include "IMenuManager.h"
 
 // General includes:
 #include "CAlert.h" // CAlert::InformationAlert(Msg);
@@ -14,10 +17,11 @@
 CREATE_PMINTERFACE(KESSARMPUMMenuFilter, kKESSARMPUMMenuFilterImpl)
 
 // Class variable
+bool16 KESSARMPUMMenuFilter::bool16_dynamicMenuExperience = kFalse;
 std::vector<ActionID> KESSARMPUMMenuFilter::vector_ActionID_actionID = {};
 std::vector<PMString> KESSARMPUMMenuFilter::vector_PMString_menuPath = {};
-std::vector<PMReal> KESSARMPUMMenuFilter::vector_PMReal_menuPos = {};
-std::vector<bool16> KESSARMPUMMenuFilter::vector_bool16_isDynamic = {};
+std::vector<ActionID> KESSARMPUMMenuFilter::vector_ActionID_ShiftAndRtMousePopUpMenuItemActionID = {};
+std::vector<PMString> KESSARMPUMMenuFilter::vector_PMString_ShiftAndRtMousePopUpMenuSubMenuPath = {};
 
 // Constructor
 KESSARMPUMMenuFilter::KESSARMPUMMenuFilter(IPMUnknown* boss)
@@ -29,52 +33,16 @@ KESSARMPUMMenuFilter::KESSARMPUMMenuFilter(IPMUnknown* boss)
 void KESSARMPUMMenuFilter::FilterMenuItem(
 	ActionID* actionID, PMString* menuPath, PMReal* menuPos, bool16 isDynamic, bool16 isOwnerDraw)
 {
-	if (menuPath->Contains("RtMouseDefault"))
+	if (menuPath->Contains("RtMouseDefault") && KESSARMPUMMenuFilter::bool16_dynamicMenuExperience == kFalse)
 	{
-		
 		// Not DynamicMenuActionID
 		if (actionID->Get() != kKESSARMPUMRtMouseDefaultDynMnuPlaceholderActionID)
 		{
-			// ---------------------------------------------------------------------------------------
-			// Do not duplicate
-			auto result_actionID = std::find(
-				KESSARMPUMMenuFilter::vector_ActionID_actionID.begin(),
-				KESSARMPUMMenuFilter::vector_ActionID_actionID.end(),
-				*actionID
-			);
-
-			// not duplicated && actionID->Get() != 0
-			if (result_actionID == KESSARMPUMMenuFilter::vector_ActionID_actionID.end() && actionID->Get() != 0)
+			if (actionID->Get() == kInvalidActionID) // Sub menu
 			{
-				// Added menu?
-				//if (actionID->Get() != kDynMnuStaticMenuActionID)
-				//{
-					KESSARMPUMMenuFilter::vector_ActionID_actionID.push_back(*actionID);
-					KESSARMPUMMenuFilter::vector_PMString_menuPath.push_back(*menuPath);
-					KESSARMPUMMenuFilter::vector_PMReal_menuPos.push_back(*menuPos);
-					KESSARMPUMMenuFilter::vector_bool16_isDynamic.push_back(isDynamic);
-					//}
+				KESSARMPUMMenuFilter::vector_PMString_menuPath.push_back(*menuPath);
 			}
-			else if (actionID->Get() == 0)
-			{
-				// ---------------------------------------------------------------------------------------
-				// Do not duplicate
-				auto result_menuPath = std::find(
-					KESSARMPUMMenuFilter::vector_PMString_menuPath.begin(),
-					KESSARMPUMMenuFilter::vector_PMString_menuPath.end(),
-					*menuPath
-				);
-
-				// not duplicated
-				if (result_menuPath == KESSARMPUMMenuFilter::vector_PMString_menuPath.end())
-				{
-					KESSARMPUMMenuFilter::vector_ActionID_actionID.push_back(*actionID);
-					KESSARMPUMMenuFilter::vector_PMString_menuPath.push_back(*menuPath);
-					KESSARMPUMMenuFilter::vector_PMReal_menuPos.push_back(*menuPos);
-					KESSARMPUMMenuFilter::vector_bool16_isDynamic.push_back(isDynamic);
-				}
-			}
+			else KESSARMPUMMenuFilter::vector_ActionID_actionID.push_back(*actionID); // Menu item
 		}
-		
 	}
 }

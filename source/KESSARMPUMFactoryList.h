@@ -21,6 +21,9 @@
 //  
 //========================================================================================
 REGISTER_PMINTERFACE(KESSARMPUMScriptProvider, kKESSARMPUMScriptProviderImpl)
-REGISTER_PMINTERFACE(KESSARMPUMMenuFilter, kKESSARMPUMMenuFilterImpl)
 REGISTER_PMINTERFACE(KESSARMPUMDynamicMenu, kKESSARMPUMDynamicMenuImpl)
 REGISTER_PMINTERFACE(KESSARMPUMActionComponent, kKESSARMPUMActionComponentImpl)
+REGISTER_PMINTERFACE(KESSARMPUMIdleTask, kKESSARMPUMIdleTaskImpl)
+
+
+REGISTER_PMINTERFACE(KESSARMPUMMenuFilter, kKESSARMPUMMenuFilterImpl)

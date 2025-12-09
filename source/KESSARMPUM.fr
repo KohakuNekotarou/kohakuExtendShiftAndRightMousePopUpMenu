@@ -109,7 +109,7 @@ resource ClassDescriptionTable(kSDKDefClassDescriptionTableResourceID)
 			IID_IDYNAMICMENU, kKESSARMPUMDynamicMenuImpl,
 		},
 	},
-	
+
 	Class
 	{
 		kKESSARMPUMMenuFilterBoss,
@@ -118,6 +118,15 @@ resource ClassDescriptionTable(kSDKDefClassDescriptionTableResourceID)
 			IID_IMENUFILTER, kKESSARMPUMMenuFilterImpl,
 			IID_IK2SERVICEPROVIDER, kMenuFilterProviderImpl,
 			IID_IPMPERSIST, kPMPersistImpl,
+		}
+	},
+
+	AddIn
+	{
+		kSessionBoss,
+		kInvalidClass,
+		{
+			IID_IKESSARMPUMIDLETASK, kKESSARMPUMIdleTaskImpl,
 		}
 	},
 }}};
@@ -130,18 +139,6 @@ resource FactoryList (kSDKDefFactoryListResourceID)
 	kImplementationIDSpace,
 	{
 		#include "KESSARMPUMFactoryList.h"
-	}
-};
-
-// Menu definition.
-resource MenuDef (kSDKDefMenuResourceID)
-{
-	{
-		// Placeholder for dynamic menu entries
-		kKESSARMPUMRtMouseDefaultDynMnuPlaceholderActionID, // ActionID
-		"RtMouseDefault", // Menu Path.
-		0, // Menu Position.
-		kTrue, // Flag for dynamic menu
 	}
 };
 
@@ -222,6 +219,16 @@ resource VersionedScriptElementInfo(2)
 	
 	// Elements
 	{
+		// Connects this plug-in's methods and properties to scripting.
+		Provider
+		{
+			kKESSARMPUMScriptProviderBoss,	// provider boss ID
+			{
+				Object{ kApplicationObjectScriptElement },
+				Method{ kKESSARMPUMMethodScriptElement },
+			}
+		}
+
 		// Specifies an Method
 		Method
 		{
@@ -231,30 +238,6 @@ resource VersionedScriptElementInfo(2)
 			"Displays what you say in dialog",
 			VoidType,
 			{
-				p_Said, "said", "Holds a string", StringType, kRequired,
-			}
-		}
-
-		// Specifies a property
-		Property
-		{
-			kKESSARMPUMPropertyScriptElement,
-			p_Response,
-			"response",
-			"Describes user response to dialog",
-			StringType,
-			{}
-			kNoAttributeClass,
-		}
-		
-		// Connects this plug-in's methods and properties to scripting.
-		Provider
-		{
-			kKESSARMPUMScriptProviderBoss,	// provider boss ID
-			{
-				Object{ kApplicationObjectScriptElement },
-				Method{ kKESSARMPUMMethodScriptElement },
-				Property{ kKESSARMPUMPropertyScriptElement, kReadOnly },
 			}
 		}
 	}

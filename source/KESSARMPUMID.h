@@ -50,17 +50,22 @@ DECLARE_PMID(kPlugInIDSpace, kKESSARMPUMPluginID, kKESSARMPUMPrefix + 0)
 
 // ClassIDs:
 DECLARE_PMID(kClassIDSpace, kKESSARMPUMScriptProviderBoss, kKESSARMPUMPrefix + 0)
-DECLARE_PMID(kClassIDSpace, kKESSARMPUMMenuFilterBoss, kKESSARMPUMPrefix + 1)
-DECLARE_PMID(kClassIDSpace, kKESSARMPUMActionComponentBoss, kKESSARMPUMPrefix + 2)
+DECLARE_PMID(kClassIDSpace, kKESSARMPUMActionComponentBoss, kKESSARMPUMPrefix + 1)
+
+
+DECLARE_PMID(kClassIDSpace, kKESSARMPUMMenuFilterBoss, kKESSARMPUMPrefix + 100)
 
 // InterfaceIDs:
-//DECLARE_PMID(kInterfaceIDSpace, IID_IKESSARMPUMINTERFACE, kKESSARMPUMPrefix + 0)
+DECLARE_PMID(kInterfaceIDSpace, IID_IKESSARMPUMIDLETASK, kKESSARMPUMPrefix + 0)
 
 // ImplementationIDs:
 DECLARE_PMID(kImplementationIDSpace, kKESSARMPUMScriptProviderImpl, kKESSARMPUMPrefix + 0 )
-DECLARE_PMID(kImplementationIDSpace, kKESSARMPUMMenuFilterImpl, kKESSARMPUMPrefix + 1)
-DECLARE_PMID(kImplementationIDSpace, kKESSARMPUMDynamicMenuImpl, kKESSARMPUMPrefix + 2)
-DECLARE_PMID(kImplementationIDSpace, kKESSARMPUMActionComponentImpl, kKESSARMPUMPrefix + 3)
+DECLARE_PMID(kImplementationIDSpace, kKESSARMPUMDynamicMenuImpl, kKESSARMPUMPrefix + 1)
+DECLARE_PMID(kImplementationIDSpace, kKESSARMPUMActionComponentImpl, kKESSARMPUMPrefix + 2)
+DECLARE_PMID(kImplementationIDSpace, kKESSARMPUMIdleTaskImpl, kKESSARMPUMPrefix + 3)
+
+
+DECLARE_PMID(kImplementationIDSpace, kKESSARMPUMMenuFilterImpl, kKESSARMPUMPrefix + 100)
 
 // ActionIDs:
 DECLARE_PMID(kActionIDSpace, kKESSARMPUMAboutActionID, kKESSARMPUMPrefix + 0)

@@ -1,34 +1,102 @@
 #include "VCPlugInHeaders.h"
 
 // Interface includes:
-#include "IActionManager.h"
-#include "IApplication.h"
+#include "ICommand.h"
 #include "IDynamicMenu.h"
-#include "IMenuManager.h"
+
+#include "IEventWatcher.h"
+
+
+#include "IIdleTask.h"
+#include "IIdleTaskMgr.h"
+
+
+
+
+
+
+
+
+
+
+
+#include "IMenuCustomizationData.h"
 
 // General includes:
 #include "CAlert.h" // CAlert::InformationAlert(Msg);
+#include "CmdUtils.h"
 #include "KeyStates.h" // for IsShiftKeyPressed
 
 // Project includes:
 #include "KESSARMPUMID.h"
 #include "KESSARMPUMMenuFilter.h"
-
-class KESSARMPUMDynamicMenu : public CPMUnknown<IDynamicMenu>
-{
-	public:
-		KESSARMPUMDynamicMenu(IPMUnknown *boss);
-
-		void RebuildMenu(ActionID dynamicActionID, IPMUnknown* widget);
-
-		static bool16 SiftAfterFlg;
-};
+#include "KESSARMPUMDynamicMenu.h"
 
 // CREATE_PMINTERFACE
 CREATE_PMINTERFACE(KESSARMPUMDynamicMenu, kKESSARMPUMDynamicMenuImpl)
 
 // Class variable
-bool16 KESSARMPUMDynamicMenu::SiftAfterFlg = kFalse;
+std::vector<ActionID> KESSARMPUMDynamicMenu::vector_ActionID_RtMouseDefaultMenuItemActionID = {
+	78350,
+	78349,
+	78348,
+	78342,
+	78359,
+	78351,
+	78352,
+	78346,
+	78345,
+	78344,
+	78358,
+	78341,
+	44294,
+	44293,
+	49926,
+	49922,
+	49923,
+	50191,
+	50192,
+	50194,
+	50194,
+	50178,
+	50179,
+	24325,
+	24342,
+	24344,
+	24327,
+	24329,
+	24343,
+	24344,
+	24326,
+	24347,
+	24328,
+	24349,
+	24330,
+	13313,
+	13316,
+	118785,
+	118786,
+	118791,
+	118789,
+	118797,
+	118872,
+	118873,
+	118850,
+	11289,
+	11287,
+	11288,
+	11290,
+	11303,
+	273,
+	271,
+	418,
+};
+std::vector<PMString> KESSARMPUMDynamicMenu::vector_PMString_RtMouseDefaultSubMenuPath = {
+	"RtMouseDefault:Display Performance:",
+	"RtMouseDefault:Writing Direction:",
+	"RtMouseDefault:Grids && Guides:",
+	"RtMouseDefault:SelectObjectMenu:"
+};
 
 // Constructor
 KESSARMPUMDynamicMenu::KESSARMPUMDynamicMenu(IPMUnknown *boss) :
@@ -38,71 +106,127 @@ KESSARMPUMDynamicMenu::KESSARMPUMDynamicMenu(IPMUnknown *boss) :
 
 void KESSARMPUMDynamicMenu::RebuildMenu(ActionID dynamicActionID, IPMUnknown* widget)
 {
-	do {
-		// ---------------------------------------------------------------------------------------
-		// Query IMenuManager
-		InterfacePtr<IApplication> iApplication(GetExecutionContextSession()->QueryApplication());
-		if (iApplication == nil) break;
+	KESSARMPUMMenuFilter::bool16_dynamicMenuExperience = kTrue; // dynamicMenuExperience
 
-		InterfacePtr<IActionManager> iActionManager(iApplication->QueryActionManager());
-		if (iActionManager == nil) break;
+	if (IsShiftKeyPressed() == kTrue)
+	{
+		do {
+			// ---------------------------------------------------------------------------------------
+			// Add task
+			// Insert an idle task before opening modal dialog to prevent the program from stopping.
+			InterfacePtr<IIdleTask> iIdleTask(GetExecutionContextSession(), IID_IKESSARMPUMIDLETASK);
+			if (iIdleTask == nil) break;
 
-		InterfacePtr<IMenuManager> iMenuManager(iActionManager, UseDefaultIID());
-		if (iMenuManager == nil) break;
-	
-		// ---------------------------------------------------------------------------------------
-		// Edit PopUp Menu
-		if (IsShiftKeyPressed() == kTrue)
-		{
-			// After regular menu appears?
-			if (KESSARMPUMDynamicMenu::SiftAfterFlg == kFalse)
-			{
-				// Delete existing menu
-				for (int32 i = 0; i < KESSARMPUMMenuFilter::vector_ActionID_actionID.size(); i++)
-				{
-					iMenuManager->RemoveMenuItem(
-						KESSARMPUMMenuFilter::vector_PMString_menuPath[i], // Menu path
-						KESSARMPUMMenuFilter::vector_ActionID_actionID[i] // ActionID
-					);
-				}
+			InterfacePtr<IIdleTaskMgr> idleTaskMgr(GetExecutionContextSession(), ::UseDefaultIID());
+			if (idleTaskMgr == nil) break;
 
-				// Add to Menu
-				iMenuManager->AddMenuItem(
-					271,
-					"RtMouseDefault",
-					0,
-					kFalse
-				);
+			idleTaskMgr->RemoveTask(iIdleTask); // RemoveTask
+			idleTaskMgr->AddTask(iIdleTask, 0); // AddTask
 
-				// SiftAfterFlg
-				KESSARMPUMDynamicMenu::SiftAfterFlg = kTrue;
-			}
-		}
+			// ---------------------------------------------------------------------------------------
+			// MenuCustomization
+			InterfacePtr<ICommand> iCommand(CmdUtils::CreateCommand(kSetMenuCustomizationPrefsCmdBoss));
+			if (iCommand == nil) break;
+
+			InterfacePtr<IMenuCustomizationData> iMenuCustomizationData(iCommand, UseDefaultIID());
+			if (iMenuCustomizationData == nil) break;
+
+			// Hide existing menu
+			bool16 bool16_hide = kFalse;
+			this->SetMenuCustomizationData(
+				KESSARMPUMDynamicMenu::vector_ActionID_RtMouseDefaultMenuItemActionID,
+				KESSARMPUMDynamicMenu::vector_PMString_RtMouseDefaultSubMenuPath,
+				KESSARMPUMMenuFilter::vector_ActionID_ShiftAndRtMousePopUpMenuItemActionID,
+				KESSARMPUMMenuFilter::vector_PMString_ShiftAndRtMousePopUpMenuSubMenuPath,
+				iMenuCustomizationData,
+				bool16_hide
+			);
+
+			// Show my menu
+			bool16 bool16_show = kTrue;
+			this->SetMenuCustomizationData(
+				KESSARMPUMMenuFilter::vector_ActionID_ShiftAndRtMousePopUpMenuItemActionID,
+				KESSARMPUMMenuFilter::vector_PMString_ShiftAndRtMousePopUpMenuSubMenuPath,
+				KESSARMPUMDynamicMenu::vector_ActionID_RtMouseDefaultMenuItemActionID,
+				KESSARMPUMDynamicMenu::vector_PMString_RtMouseDefaultSubMenuPath,
+				iMenuCustomizationData,
+				bool16_show
+			);
+
+			// ProcessCommand
+			CmdUtils::ProcessCommand(iCommand);
+
+		} while (false);
+	}
+	else // if (IsShiftKeyPressed() == kFalse)
+	{
+		do {
+			//InterfacePtr<ICommand> iCommand(CmdUtils::CreateCommand(kSetMenuCustomizationPrefsCmdBoss));
+			//if (iCommand == nil) break;
+
+			//InterfacePtr<IMenuCustomizationData> iMenuCustomizationData(iCommand, UseDefaultIID());
+			//if (iMenuCustomizationData == nil) break;
+
+			/*
+			// Hide my menu
+			bool16 bool16_hide = kFalse;
+			this->SetMenuCustomizationData(
+				KESSARMPUMMenuFilter::vector_ActionID_ShiftAndRtMousePopUpMenuItemActionID,
+				KESSARMPUMMenuFilter::vector_PMString_ShiftAndRtMousePopUpMenuSubMenuPath,
+				KESSARMPUMDynamicMenu::vector_ActionID_RtMouseDefaultMenuItemActionID,
+				KESSARMPUMDynamicMenu::vector_PMString_RtMouseDefaultSubMenuPath,
+				iMenuCustomizationData,
+				bool16_hide
+			);
+			*/
+			//CmdUtils::ProcessCommand(iCommand);
+
+		} while (false);
+	}
+}
+
+void KESSARMPUMDynamicMenu::SetMenuCustomizationData(
+	std::vector<ActionID>& vector_actionID,
+	std::vector<PMString>& vector_menuPath,
+	std::vector<ActionID>& vector_existingActionID,
+	std::vector<PMString>& vector_existingmenuPath,
+	IMenuCustomizationData* iMenuCustomizationData,
+	bool16 showHideFlg)
+{
+	// MenuItem
+	for (std::vector<ActionID>::iterator it = vector_actionID.begin(); it != vector_actionID.end(); ++it)
+	{
+		if (showHideFlg == kTrue) iMenuCustomizationData->ShowMenuAction(*it);
 		else
 		{
-			// After shift menu appears?
-			if (KESSARMPUMDynamicMenu::SiftAfterFlg == kTrue)
-			{
-				// Delete menu
-				iMenuManager->RemoveMenuItem(
-					"RtMouseDefault", // Menu path
-					271 // ActionID
-				);
+			// Is it included in existingActionID?
+			auto result = std::find(vector_existingActionID.begin(), vector_existingActionID.end(), *it);
 
-				// Add existing menu
-				for (int32 i = 0; i < KESSARMPUMMenuFilter::vector_ActionID_actionID.size(); i++)
-				{
-					iMenuManager->AddMenuItem(
-						KESSARMPUMMenuFilter::vector_ActionID_actionID[i], // Action ID
-						KESSARMPUMMenuFilter::vector_PMString_menuPath[i], // Menu path
-						KESSARMPUMMenuFilter::vector_PMReal_menuPos[i], // Menu position
-						KESSARMPUMMenuFilter::vector_bool16_isDynamic[i] // IsDynamicMenu
-					);
-				}
-
-				// SiftAfterFlg
-				KESSARMPUMDynamicMenu::SiftAfterFlg = kFalse;
+			if (result == vector_existingActionID.end()) { // Not found
+				iMenuCustomizationData->HideMenuAction(*it);
 			}
 		}
-	} while (false);
+	}
+
+	// SubMenu
+	for (std::vector<PMString>::iterator it = vector_menuPath.begin(); it != vector_menuPath.end(); ++it)
+	{
+		// Remove ":"
+		PMString pMString_menuPath = *it;
+
+		int32 int32_count = pMString_menuPath.CharCount();
+
+		pMString_menuPath.Remove(int32_count - 1, 1);
+
+		if (showHideFlg == kTrue) iMenuCustomizationData->ShowSubMenu(pMString_menuPath);
+		else
+		{
+			// Is it included in existingmenuPath?
+			auto result = std::find(vector_existingmenuPath.begin(), vector_existingmenuPath.end(), *it);
+
+			if (result == vector_existingmenuPath.end()) { // Not found
+				iMenuCustomizationData->HideSubMenu(pMString_menuPath);
+			}
+		}
+	}
 }
