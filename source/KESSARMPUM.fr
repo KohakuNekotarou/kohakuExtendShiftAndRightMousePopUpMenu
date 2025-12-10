@@ -142,22 +142,6 @@ resource FactoryList (kSDKDefFactoryListResourceID)
 	}
 };
 
-// Action definition.
-resource ActionDef (kSDKDefActionResourceID)
-{
-	{ 
-		// Action def for dynamic popup menu entries
-		kKESSARMPUMActionComponentBoss, // ClassID of boss class that implements the ActionID.
-		kKESSARMPUMRtMouseDefaultDynMnuPlaceholderActionID, // ActionID.
-		"dynamic", // Sub-menu string
-		kOtherActionArea, // Area name (see ActionDefs.h).
-		kNormalAction, // Type of action (see ActionDefs.h).
-		kCustomEnabling, // Enabling type (see ActionDefs.h).
-		0, // Selection InterfaceID this action cares about or kInvalidInterfaceID.
-		kFalse, // kSDKDefVisibleInKBSCEditorFlag or kSDKDefInvisibleInKBSCEditorFlag.
-	}
-};
-
 /*  
  * Locale Indicies.
  * The LocaleIndex should have indicies that point at your
@@ -224,26 +208,100 @@ resource VersionedScriptElementInfo(2)
 		{
 			kKESSARMPUMScriptProviderBoss,	// provider boss ID
 			{
+				Object{ kMenuActionObjectScriptElement },
+
+				// Set
+				// targetMenu = "RtMouseDefault";
+				// app.menuActions.itemByID(271).kessarmpumSetMenuItem(targetMenu);
+				Method{ kKESSARMPUMSetMethodScriptElement },
+
+				// ---------------------------------------------------------------------------------------
 				Object{ kApplicationObjectScriptElement },
-				Method{ kKESSARMPUMMethodScriptElement },
+
+				// Install
+				// app.kessarmpumInstall();
+				Method{ kKESSARMPUMInstallMethodScriptElement },
+
+				// Remove
+				// app.kessarmpumRemove();
+				Method{ kKESSARMPUMRemoveMethodScriptElement },
+
+				// Is
+				// app.kessarmpumIs();
+				Property{ kKESSARMPUMIsPropertyScriptElement, kReadOnly },
 			}
 		}
 
-		// Specifies an Method
 		Method
 		{
-			kKESSARMPUMMethodScriptElement,
-			e_Speak,
-			"speak",
-			"Displays what you say in dialog",
+			kKESSARMPUMSetMethodScriptElement,
+			e_KESSARMPUMSetMenuItem,
+			"KESSARMPUM set menu item",
+			"KESSARMPUM set shift and right mouse button pop up menu item.",
+			VoidType,
+			{
+				p_KESSARMPUMTargetMenuString, // Parameter's ScriptID.
+				"KESSARMPUM target menu string", // Parameter's name.
+				"KESSARMPUM target menu string.", // Parameter's description.
+				StringType, // Parameter's type.
+				kRequired, // kOptional or kRequired.
+			}
+		}
+
+
+
+
+
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+		Method
+		{
+			kKESSARMPUMInstallMethodScriptElement,
+			e_KESSARMPUMInstall,
+			"KESSARMPUM install",
+			"KESSARMPUM install shift and right mouse button pop up menu.",
 			VoidType,
 			{
 			}
 		}
+
+		Method
+		{
+			kKESSARMPUMRemoveMethodScriptElement,
+			e_KESSARMPUMRemove,
+			"KESSARMPUM remove",
+			"KESSARMPUM remove shift and right mouse button pop up menu.",
+			VoidType,
+			{
+			}
+		}
+
+		Property
+		{
+			kKESSARMPUMIsPropertyScriptElement,
+			p_KESSARMPUMIs,
+			"KESSARMPUM is",
+			"KESSARMPUM is remove shift and right mouse button pop up menu.",
+			BoolType,
+			{}
+			kNoAttributeClass,
+		}
 	}
 };
 
-	
 #endif // __ODFRC__
 
 #include "KESSARMPUM_enUS.fr"

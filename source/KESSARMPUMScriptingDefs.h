@@ -34,15 +34,15 @@ DECLARE_GUID(CPrefs_CLSID, kCPrefs_CLSID);
 // Method IDs
 enum KESSARMPUMScriptEvents
 {
-	e_Speak		= 'eSpk'
+	e_KESSARMPUMInstall = 'KSPI',
+	e_KESSARMPUMSetMenuItem = 'KSMI',
+	e_KESSARMPUMRemove = 'KSPR',
 };
 
 // Property IDs
 enum KESSARMPUMScriptProperties
 {
-	p_Said		= 'pSed',
-	p_Response		= 'pRsp'
+	p_KESSARMPUMIs = 'KSIs',
+	p_KESSARMPUMTargetMenuString = 'KTMS',
 };
-
-
 #endif // __KESSARMPUMScriptingDefs_h__

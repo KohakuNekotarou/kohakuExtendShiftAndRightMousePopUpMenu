@@ -51,9 +51,7 @@ DECLARE_PMID(kPlugInIDSpace, kKESSARMPUMPluginID, kKESSARMPUMPrefix + 0)
 // ClassIDs:
 DECLARE_PMID(kClassIDSpace, kKESSARMPUMScriptProviderBoss, kKESSARMPUMPrefix + 0)
 DECLARE_PMID(kClassIDSpace, kKESSARMPUMActionComponentBoss, kKESSARMPUMPrefix + 1)
-
-
-DECLARE_PMID(kClassIDSpace, kKESSARMPUMMenuFilterBoss, kKESSARMPUMPrefix + 100)
+DECLARE_PMID(kClassIDSpace, kKESSARMPUMMenuFilterBoss, kKESSARMPUMPrefix + 2)
 
 // InterfaceIDs:
 DECLARE_PMID(kInterfaceIDSpace, IID_IKESSARMPUMIDLETASK, kKESSARMPUMPrefix + 0)
@@ -63,9 +61,7 @@ DECLARE_PMID(kImplementationIDSpace, kKESSARMPUMScriptProviderImpl, kKESSARMPUMP
 DECLARE_PMID(kImplementationIDSpace, kKESSARMPUMDynamicMenuImpl, kKESSARMPUMPrefix + 1)
 DECLARE_PMID(kImplementationIDSpace, kKESSARMPUMActionComponentImpl, kKESSARMPUMPrefix + 2)
 DECLARE_PMID(kImplementationIDSpace, kKESSARMPUMIdleTaskImpl, kKESSARMPUMPrefix + 3)
-
-
-DECLARE_PMID(kImplementationIDSpace, kKESSARMPUMMenuFilterImpl, kKESSARMPUMPrefix + 100)
+DECLARE_PMID(kImplementationIDSpace, kKESSARMPUMMenuFilterImpl, kKESSARMPUMPrefix + 4)
 
 // ActionIDs:
 DECLARE_PMID(kActionIDSpace, kKESSARMPUMAboutActionID, kKESSARMPUMPrefix + 0)
@@ -75,8 +71,10 @@ DECLARE_PMID(kActionIDSpace, kKESSARMPUMRtMouseDefaultDynMnuPlaceholderActionID,
 //DECLARE_PMID(kWidgetIDSpace, kKESSARMPUMWidgetID, kKESSARMPUMPrefix + 2)
 
 //Script Element IDs
-DECLARE_PMID(kScriptInfoIDSpace, kKESSARMPUMMethodScriptElement, kKESSARMPUMPrefix + 0)
-DECLARE_PMID(kScriptInfoIDSpace, kKESSARMPUMPropertyScriptElement, kKESSARMPUMPrefix + 1)
+DECLARE_PMID(kScriptInfoIDSpace, kKESSARMPUMSetMethodScriptElement, kKESSARMPUMPrefix + 0)
+DECLARE_PMID(kScriptInfoIDSpace, kKESSARMPUMRemoveMethodScriptElement, kKESSARMPUMPrefix + 1)
+DECLARE_PMID(kScriptInfoIDSpace, kKESSARMPUMIsPropertyScriptElement, kKESSARMPUMPrefix + 2)
+DECLARE_PMID(kScriptInfoIDSpace, kKESSARMPUMInstallMethodScriptElement, kKESSARMPUMPrefix + 3)
 
 // "About Plug-ins" sub-menu:
 #define kKESSARMPUMAboutMenuKey			kKESSARMPUMStringPrefix "kKESSARMPUMAboutMenuKey"

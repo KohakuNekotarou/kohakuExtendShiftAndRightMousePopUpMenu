@@ -16,11 +16,21 @@ public:
 
 	KESSARMPUMScriptProvider(IPMUnknown* boss);
 
-	virtual ErrorCode HandleMethod(ScriptID scriptID, IScriptRequestData* iScriptRequestData, IScript* iScript_parent);
+	virtual ErrorCode HandleMethod(
+		ScriptID scriptID, IScriptRequestData* iScriptRequestData, IScript* iScript_parent);
 
-	//virtual ErrorCode AccessProperty(ScriptID propID, IScriptRequestData* data, IScript* parent);
+	virtual ErrorCode AccessProperty(
+		ScriptID scriptID_prop, IScriptRequestData* iScriptRequestData, IScript* iScript_parent);
 
 private:
 
-	virtual ErrorCode Test(ScriptID scriptID, IScriptRequestData* iScriptRequestData, IScript* iScript_parent);
+	virtual ErrorCode SetShiftRightMouseButtonPopUpMenuItem(
+		ScriptID scriptID, IScriptRequestData* iScriptRequestData, IScript* iScript_parent);
+
+	virtual ErrorCode InstallShiftRightMouseButtonPopUpMenu();
+
+	virtual ErrorCode RemoveShiftRightMouseButtonPopUpMenu();
+
+	virtual ErrorCode IsShiftRightMouseButtonPopUpMenu(
+		ScriptID scriptID, IScriptRequestData* iScriptRequestData, IScript* iScript_parent);
 };

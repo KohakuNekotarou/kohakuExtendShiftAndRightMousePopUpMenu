@@ -2,6 +2,7 @@
 
 // Interface includes:
 #include "IDynamicMenu.h"
+#include "IMenuCustomizationData.h"
 
 // General includes:
 #include "CScriptProvider.h"
@@ -25,9 +26,8 @@ public:
 		bool16 showHideFlg
 	);
 
-	// RtMouseDefaultMenuItemActionID
 	static std::vector<ActionID> vector_ActionID_RtMouseDefaultMenuItemActionID;
-
-	// RtMouseDefaultSubMenuPath
 	static std::vector<PMString> vector_PMString_RtMouseDefaultSubMenuPath;
+	static std::vector<ActionID> vector_ActionID_ShiftRtMouseDefaultMenuItemActionID;
+	static std::vector<PMString> vector_PMString_ShiftRtMouseDefaultSubMenuPath;
 };

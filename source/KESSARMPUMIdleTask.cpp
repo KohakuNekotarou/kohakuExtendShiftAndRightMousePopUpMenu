@@ -44,8 +44,8 @@ uint32 KESSARMPUMIdleTask::RunTask(uint32 appFlags, IdleTimer* timeCheck)
 		KESSARMPUMDynamicMenu::SetMenuCustomizationData(
 			KESSARMPUMDynamicMenu::vector_ActionID_RtMouseDefaultMenuItemActionID,
 			KESSARMPUMDynamicMenu::vector_PMString_RtMouseDefaultSubMenuPath,
-			KESSARMPUMDynamicMenu::vector_ActionID_RtMouseDefaultMenuItemActionID,
-			KESSARMPUMDynamicMenu::vector_PMString_RtMouseDefaultSubMenuPath,
+			KESSARMPUMDynamicMenu::vector_ActionID_ShiftRtMouseDefaultMenuItemActionID,
+			KESSARMPUMDynamicMenu::vector_PMString_ShiftRtMouseDefaultSubMenuPath,
 			iMenuCustomizationData,
 			bool16_show
 		);
