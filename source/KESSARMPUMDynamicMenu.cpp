@@ -40,56 +40,42 @@ std::vector<ActionID> KESSARMPUMDynamicMenu::vector_ActionID_RtMouseDefaultMenuI
 	78350,
 	78349,
 	78348,
-	78342,
-	78359,
 	78351,
 	78352,
 	78346,
 	78345,
 	78344,
-	78358,
 	78341,
-	44294,
 	44293,
-	49926,
 	49922,
 	49923,
 	50191,
 	50192,
-	50194,
-	50194,
 	50178,
 	50179,
 	24325,
 	24342,
-	24344,
 	24327,
 	24329,
 	24343,
-	24344,
 	24326,
 	24347,
 	24328,
 	24349,
 	24330,
 	13313,
-	13316,
 	118785,
 	118786,
 	118791,
 	118789,
-	118797,
 	118872,
-	118873,
 	118850,
 	11289,
 	11287,
 	11288,
 	11290,
-	11303,
 	273,
-	271,
-	418,
+	271
 };
 std::vector<PMString> KESSARMPUMDynamicMenu::vector_PMString_RtMouseDefaultSubMenuPath = {
 	"RtMouseDefault:Display Performance:",
@@ -161,13 +147,12 @@ void KESSARMPUMDynamicMenu::RebuildMenu(ActionID dynamicActionID, IPMUnknown* wi
 	else // if (IsShiftKeyPressed() == kFalse)
 	{
 		do {
-			//InterfacePtr<ICommand> iCommand(CmdUtils::CreateCommand(kSetMenuCustomizationPrefsCmdBoss));
-			//if (iCommand == nil) break;
+			InterfacePtr<ICommand> iCommand(CmdUtils::CreateCommand(kSetMenuCustomizationPrefsCmdBoss));
+			if (iCommand == nil) break;
 
-			//InterfacePtr<IMenuCustomizationData> iMenuCustomizationData(iCommand, UseDefaultIID());
-			//if (iMenuCustomizationData == nil) break;
+			InterfacePtr<IMenuCustomizationData> iMenuCustomizationData(iCommand, UseDefaultIID());
+			if (iMenuCustomizationData == nil) break;
 
-			/*
 			// Hide my menu
 			bool16 bool16_hide = kFalse;
 			this->SetMenuCustomizationData(
@@ -178,8 +163,8 @@ void KESSARMPUMDynamicMenu::RebuildMenu(ActionID dynamicActionID, IPMUnknown* wi
 				iMenuCustomizationData,
 				bool16_hide
 			);
-			*/
-			//CmdUtils::ProcessCommand(iCommand);
+
+			CmdUtils::ProcessCommand(iCommand);
 
 		} while (false);
 	}

@@ -28,6 +28,11 @@
 // CREATE_PMINTERFACE
 CREATE_PMINTERFACE(KESSARMPUMScriptProvider, kKESSARMPUMScriptProviderImpl)
 
+// Constructor
+KESSARMPUMScriptProvider::KESSARMPUMScriptProvider(IPMUnknown* boss) : CScriptProvider(boss)
+{
+}
+
 ErrorCode KESSARMPUMScriptProvider::HandleMethod(
 	ScriptID scriptID, IScriptRequestData* iScriptRequestData, IScript* iScript_parent)
 {

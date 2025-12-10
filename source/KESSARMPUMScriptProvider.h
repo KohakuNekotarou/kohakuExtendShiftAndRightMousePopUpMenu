@@ -14,7 +14,7 @@ class KESSARMPUMScriptProvider : public CScriptProvider
 {
 public:
 
-	KESSARMPUMScriptProvider(IPMUnknown* boss) : CScriptProvider(boss) {};
+	KESSARMPUMScriptProvider(IPMUnknown* boss);
 
 	virtual ErrorCode HandleMethod(ScriptID scriptID, IScriptRequestData* iScriptRequestData, IScript* iScript_parent);
 
