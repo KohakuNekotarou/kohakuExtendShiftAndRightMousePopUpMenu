@@ -14,7 +14,6 @@
 
 // Project includes:
 #include "KESSARMPUMID.h"
-#include "KESSARMPUMMenuFilter.h"
 #include "KESSARMPUMDynamicMenu.h"
 
 // CREATE_PMINTERFACE
@@ -81,10 +80,18 @@ KESSARMPUMDynamicMenu::KESSARMPUMDynamicMenu(IPMUnknown *boss) :
 
 void KESSARMPUMDynamicMenu::RebuildMenu(ActionID dynamicActionID, IPMUnknown* widget)
 {
-	KESSARMPUMMenuFilter::bool16_dynamicMenuExperience = kTrue; // dynamicMenuExperience
-
 	if (IsShiftKeyPressed() == kTrue)
 	{
+		if(dynamicActionID == kKESSARMPUMRtMouseLayoutDynMnuPlaceholderActionID)
+			CAlert::InformationAlert("RtMouseLayout");
+
+
+
+
+
+
+
+
 		do {
 			// ---------------------------------------------------------------------------------------
 			// Add task

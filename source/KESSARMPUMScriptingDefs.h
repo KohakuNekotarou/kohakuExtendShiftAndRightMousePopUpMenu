@@ -36,6 +36,7 @@ enum KESSARMPUMScriptEvents
 {
 	e_KESSARMPUMInstall = 'KSPI',
 	e_KESSARMPUMSetMenuItem = 'KSMI',
+	e_KESSARMPUMSetSubMenu = 'KSSM',
 	e_KESSARMPUMRemove = 'KSPR',
 };
 

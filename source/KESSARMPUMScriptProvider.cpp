@@ -38,6 +38,11 @@ ErrorCode KESSARMPUMScriptProvider::HandleMethod(
 				scriptID, iScriptRequestData, iScript_parent);
 			break;
 
+		case e_KESSARMPUMSetSubMenu:
+			status = this->SetShiftRightMouseButtonPopUpSubMenu(
+				scriptID, iScriptRequestData, iScript_parent);
+			break;
+
 		case e_KESSARMPUMInstall:
 			status = this->InstallShiftRightMouseButtonPopUpMenu();
 			break;
@@ -96,12 +101,11 @@ ErrorCode KESSARMPUMScriptProvider::SetShiftRightMouseButtonPopUpMenuItem(
 
 		int32 int32_menuItemActionID;
 		scriptData.GetInt32(&int32_menuItemActionID);
-
 		ActionID actionID(int32_menuItemActionID);
 
 		// ---------------------------------------------------------------------------------------
 		// Set actionID
-		auto result = std::find( // Is it included in existingActionID?
+		auto result = std::find( // Is existing
 			KESSARMPUMDynamicMenu::vector_ActionID_ShiftRtMouseDefaultMenuItemActionID.begin(),
 			KESSARMPUMDynamicMenu::vector_ActionID_ShiftRtMouseDefaultMenuItemActionID.end(),
 			actionID
@@ -113,10 +117,65 @@ ErrorCode KESSARMPUMScriptProvider::SetShiftRightMouseButtonPopUpMenuItem(
 			KESSARMPUMDynamicMenu::vector_ActionID_ShiftRtMouseDefaultMenuItemActionID.push_back(actionID);
 		}
 
-		//KESSARMPUMMenuFilter::vector_PMString_ShiftAndRtMousePopUpMenuSubMenuPath.push_back("RtMouseDefault");
-		//KESSARMPUMMenuFilter::vector_PMString_ShiftAndRtMousePopUpMenuSubMenuPath.push_back("RtMouseDefault");
+		status = kSuccess;
+	} while (false);
+
+	return status;
+}
+
+ErrorCode KESSARMPUMScriptProvider::SetShiftRightMouseButtonPopUpSubMenu(
+	ScriptID scriptID, IScriptRequestData* iScriptRequestData, IScript* iScript_parent)
+{
+	ErrorCode status = kFailure;
+
+	do
+	{
+		// ---------------------------------------------------------------------------------------
+		// Query target menu string
+		ScriptData scriptData;
+		PMString pMString_TargetMenu;
+		if (iScriptRequestData->ExtractRequestData(p_KESSARMPUMTargetMenuString, scriptData) == kFailure) break;
+
+		if (scriptData.GetPMString(pMString_TargetMenu) == kFailure) break;
+
+		if (pMString_TargetMenu != "RtMouseDefault") break;
+
+		// ---------------------------------------------------------------------------------------
+		// Query name
+		ScriptObject scriptObject = iScript_parent->GetScriptObject(iScriptRequestData->GetRequestContext());
+
+		scriptData = scriptObject.specifierData;
+
+		PMString pMString_name;
+		scriptData.GetPMString(pMString_name);
+
+
+
+
+
+		// ‚±‚±‚©‚ç–¢ŽÀ‘•
+
+
+
+
+		// Display Performance
+		// ---------------------------------------------------------------------------------------
+		// Set menuPath
+		PMString subMenuPath;
+		auto result = std::find( // Is existing
+			KESSARMPUMDynamicMenu::vector_PMString_ShiftRtMouseDefaultSubMenuPath.begin(),
+			KESSARMPUMDynamicMenu::vector_PMString_ShiftRtMouseDefaultSubMenuPath.end(),
+			subMenuPath
+		);
+
+		if (result == KESSARMPUMDynamicMenu::vector_PMString_ShiftRtMouseDefaultSubMenuPath.end()) // Not found
+		{
+			// push_back
+			KESSARMPUMDynamicMenu::vector_PMString_ShiftRtMouseDefaultSubMenuPath.push_back(subMenuPath);
+		}
 
 		status = kSuccess;
+
 	} while (false);
 
 	return status;
@@ -140,31 +199,21 @@ ErrorCode KESSARMPUMScriptProvider::InstallShiftRightMouseButtonPopUpMenu()
 		if (iMenuManager == nil) break;
 
 		// ---------------------------------------------------------------------------------------
-		// Add DynMnuPlaceholder Action and MenuItem
-		iActionManager->RemoveAction(kKESSARMPUMRtMouseDefaultDynMnuPlaceholderActionID);  // validated
+		// Add DynMnuPlaceholder
+		this->RemoveActionAndMenu(
+			iActionManager, iMenuManager, kKESSARMPUMRtMouseDefaultDynMnuPlaceholderActionID, "RtMouseDefault");
+		this->AddActionAndMenu(
+			iActionManager, iMenuManager, kKESSARMPUMRtMouseDefaultDynMnuPlaceholderActionID, "RtMouseDefault");
 
-		iActionManager->AddAction(
-			kKESSARMPUMActionComponentBoss, // ptr to IActionComponent to field menu hit
-			kKESSARMPUMRtMouseDefaultDynMnuPlaceholderActionID, // Action ID
-			"KESSARMPUMDynMnuPlaceholder", // Sub-menu string
-			kOtherActionArea, // Action area
-			kNormalAction, // Action type
-			kCustomEnabling, // Enabling type
-			kInvalidInterfaceID, // Selection InterfaceID this action cares about or kInvalidInterfaceID.
-			kFalse // User editability
-		);
+		this->RemoveActionAndMenu(
+			iActionManager, iMenuManager, kKESSARMPUMRtMouseLayoutDynMnuPlaceholderActionID, "RtMouseLayout");
+		this->AddActionAndMenu(
+			iActionManager, iMenuManager, kKESSARMPUMRtMouseLayoutDynMnuPlaceholderActionID, "RtMouseLayout");
 
-		iMenuManager->RemoveMenuItem( // validated
-			"RtMouseDefault", // Menu path
-			kKESSARMPUMRtMouseDefaultDynMnuPlaceholderActionID // ActionID
-		);
-
-		iMenuManager->AddMenuItem(
-			kKESSARMPUMRtMouseDefaultDynMnuPlaceholderActionID, // Action ID
-			"RtMouseDefault", // Menu path
-			0, // Menu position
-			kTrue // IsDynamicMenu
-		);
+		this->RemoveActionAndMenu(
+			iActionManager, iMenuManager, kKESSARMPUMRtMouseTextDynMnuPlaceholderActionID, "RtMouseText");
+		this->AddActionAndMenu(
+			iActionManager, iMenuManager, kKESSARMPUMRtMouseTextDynMnuPlaceholderActionID, "RtMouseText");
 
 		status = kSuccess;
 	} while (false);
@@ -178,28 +227,35 @@ ErrorCode KESSARMPUMScriptProvider::RemoveShiftRightMouseButtonPopUpMenu()
 
 	do
 	{
+		// ---------------------------------------------------------------------------------------
 		// Clear
 		KESSARMPUMDynamicMenu::vector_ActionID_ShiftRtMouseDefaultMenuItemActionID.clear();
+		KESSARMPUMDynamicMenu::vector_PMString_ShiftRtMouseDefaultSubMenuPath.clear();
+
+		
+
+
+
+
+		// ‚±‚±‚©‚ç
+
+
+
+
+
+
+
 
 		// ---------------------------------------------------------------------------------------
-		// Query Manager
-		InterfacePtr<IApplication> iApplication(GetExecutionContextSession()->QueryApplication());
-		if (iApplication == nil) break;
+		// Remove DynMnuPlaceholder
+		this->RemoveActionAndMenu(
+			iActionManager, iMenuManager, kKESSARMPUMRtMouseDefaultDynMnuPlaceholderActionID, "RtMouseDefault");
 
-		InterfacePtr<IActionManager> iActionManager(iApplication->QueryActionManager());
-		if (iActionManager == nil) break;
+		this->RemoveActionAndMenu(
+			iActionManager, iMenuManager, kKESSARMPUMRtMouseLayoutDynMnuPlaceholderActionID, "RtMouseLayout");
 
-		InterfacePtr<IMenuManager> iMenuManager(iActionManager, UseDefaultIID());
-		if (iMenuManager == nil) break;
-
-		// ---------------------------------------------------------------------------------------
-		// Remove DynMnuPlaceholder Action and MenuItem
-		iActionManager->RemoveAction(kKESSARMPUMRtMouseDefaultDynMnuPlaceholderActionID);  // validated
-
-		iMenuManager->RemoveMenuItem( // validated
-			"RtMouseDefault", // Menu path
-			kKESSARMPUMRtMouseDefaultDynMnuPlaceholderActionID // ActionID
-		);
+		this->RemoveActionAndMenu(
+			iActionManager, iMenuManager, kKESSARMPUMRtMouseTextDynMnuPlaceholderActionID, "RtMouseText");
 
 		status = kSuccess;
 	} while (false);
@@ -239,6 +295,37 @@ ErrorCode KESSARMPUMScriptProvider::IsShiftRightMouseButtonPopUpMenu(
 
 	return status;
 }
+
+void KESSARMPUMScriptProvider::AddActionAndMenu(
+	IActionManager* iActionManager, IMenuManager* iMenuManager, ActionID actionID, PMString menuPath)
+{
+	iActionManager->AddAction(
+		kKESSARMPUMActionComponentBoss, // ptr to IActionComponent to field menu hit
+		actionID, // Action ID
+		"KESSARMPUMDynMnuPlaceholder", // Sub-menu string
+		kOtherActionArea, // Action area
+		kNormalAction, // Action type
+		kCustomEnabling, // Enabling type
+		kInvalidInterfaceID, // Selection InterfaceID this action cares about or kInvalidInterfaceID.
+		kFalse // User editability
+	);
+
+	iMenuManager->AddMenuItem(
+		actionID, // Action ID
+		menuPath, // Menu path
+		0, // Menu position
+		kTrue // IsDynamicMenu
+	);
+}
+
+void KESSARMPUMScriptProvider::RemoveActionAndMenu(
+	IActionManager* iActionManager, IMenuManager* iMenuManager, ActionID actionID, PMString menuPath)
+{
+	iActionManager->RemoveAction(actionID);
+
+	iMenuManager->RemoveMenuItem(menuPath, actionID);
+}
+
 
 /*
 // Query ActionID & Menu path

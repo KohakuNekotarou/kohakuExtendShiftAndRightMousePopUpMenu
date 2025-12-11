@@ -66,15 +66,18 @@ DECLARE_PMID(kImplementationIDSpace, kKESSARMPUMMenuFilterImpl, kKESSARMPUMPrefi
 // ActionIDs:
 DECLARE_PMID(kActionIDSpace, kKESSARMPUMAboutActionID, kKESSARMPUMPrefix + 0)
 DECLARE_PMID(kActionIDSpace, kKESSARMPUMRtMouseDefaultDynMnuPlaceholderActionID, kKESSARMPUMPrefix + 1)
+DECLARE_PMID(kActionIDSpace, kKESSARMPUMRtMouseLayoutDynMnuPlaceholderActionID, kKESSARMPUMPrefix + 2)
+DECLARE_PMID(kActionIDSpace, kKESSARMPUMRtMouseTextDynMnuPlaceholderActionID, kKESSARMPUMPrefix + 3)
 
 // WidgetIDs:
 //DECLARE_PMID(kWidgetIDSpace, kKESSARMPUMWidgetID, kKESSARMPUMPrefix + 2)
 
 //Script Element IDs
-DECLARE_PMID(kScriptInfoIDSpace, kKESSARMPUMSetMethodScriptElement, kKESSARMPUMPrefix + 0)
+DECLARE_PMID(kScriptInfoIDSpace, kKESSARMPUMSetMenuItemMethodScriptElement, kKESSARMPUMPrefix + 0)
 DECLARE_PMID(kScriptInfoIDSpace, kKESSARMPUMRemoveMethodScriptElement, kKESSARMPUMPrefix + 1)
 DECLARE_PMID(kScriptInfoIDSpace, kKESSARMPUMIsPropertyScriptElement, kKESSARMPUMPrefix + 2)
 DECLARE_PMID(kScriptInfoIDSpace, kKESSARMPUMInstallMethodScriptElement, kKESSARMPUMPrefix + 3)
+DECLARE_PMID(kScriptInfoIDSpace, kKESSARMPUMSetSubMenuMethodScriptElement, kKESSARMPUMPrefix + 4)
 
 // "About Plug-ins" sub-menu:
 #define kKESSARMPUMAboutMenuKey			kKESSARMPUMStringPrefix "kKESSARMPUMAboutMenuKey"

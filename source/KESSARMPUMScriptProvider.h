@@ -24,13 +24,22 @@ public:
 
 private:
 
-	virtual ErrorCode SetShiftRightMouseButtonPopUpMenuItem(
+	ErrorCode SetShiftRightMouseButtonPopUpMenuItem(
 		ScriptID scriptID, IScriptRequestData* iScriptRequestData, IScript* iScript_parent);
 
-	virtual ErrorCode InstallShiftRightMouseButtonPopUpMenu();
-
-	virtual ErrorCode RemoveShiftRightMouseButtonPopUpMenu();
-
-	virtual ErrorCode IsShiftRightMouseButtonPopUpMenu(
+	ErrorCode SetShiftRightMouseButtonPopUpSubMenu(
 		ScriptID scriptID, IScriptRequestData* iScriptRequestData, IScript* iScript_parent);
+
+	ErrorCode InstallShiftRightMouseButtonPopUpMenu();
+
+	ErrorCode RemoveShiftRightMouseButtonPopUpMenu();
+
+	ErrorCode IsShiftRightMouseButtonPopUpMenu(
+		ScriptID scriptID, IScriptRequestData* iScriptRequestData, IScript* iScript_parent);
+
+	void AddActionAndMenu(
+		IActionManager* iActionManager, IMenuManager* iMenuManager, ActionID actionID, PMString menuPath);
+
+	void RemoveActionAndMenu(
+		IActionManager* iActionManager, IMenuManager* iMenuManager, ActionID actionID, PMString menuPath);
 };

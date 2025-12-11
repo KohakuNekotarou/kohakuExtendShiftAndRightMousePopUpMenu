@@ -208,12 +208,22 @@ resource VersionedScriptElementInfo(2)
 		{
 			kKESSARMPUMScriptProviderBoss,	// provider boss ID
 			{
-				Object{ kMenuActionObjectScriptElement },
+				Object{ kMenuItemObjectScriptElement },
 
-				// Set
+				// SetMenuItem
 				// targetMenu = "RtMouseDefault";
 				// app.menuActions.itemByID(271).kessarmpumSetMenuItem(targetMenu);
-				Method{ kKESSARMPUMSetMethodScriptElement },
+				Method{ kKESSARMPUMSetMenuItemMethodScriptElement },
+
+				// ---------------------------------------------------------------------------------------
+				Object{ kSubmenuObjectScriptElement },
+
+				// SetMenuItem
+				// targetMenu = "RtMouseDefault";
+				// subMenuName = "Display Performance";
+				// app.menus.item(95).submenus.itemByName(subMenuName).kessarmpumSetSubMenu(targetMenu);
+
+				Method{ kKESSARMPUMSetSubMenuMethodScriptElement },
 
 				// ---------------------------------------------------------------------------------------
 				Object{ kApplicationObjectScriptElement },
@@ -234,7 +244,7 @@ resource VersionedScriptElementInfo(2)
 
 		Method
 		{
-			kKESSARMPUMSetMethodScriptElement,
+			kKESSARMPUMSetMenuItemMethodScriptElement,
 			e_KESSARMPUMSetMenuItem,
 			"KESSARMPUM set menu item",
 			"KESSARMPUM set shift and right mouse button pop up menu item.",
@@ -248,24 +258,21 @@ resource VersionedScriptElementInfo(2)
 			}
 		}
 
-
-
-
-
-
-		
-
-
-
-
-
-
-
-
-
-
-
-
+		Method
+		{
+			kKESSARMPUMSetSubMenuMethodScriptElement,
+			e_KESSARMPUMSetSubMenu,
+			"KESSARMPUM set sub menu",
+			"KESSARMPUM set shift and right mouse button pop up sub menu.",
+			VoidType,
+			{
+				p_KESSARMPUMTargetMenuString, // Parameter's ScriptID.
+				"KESSARMPUM target menu string", // Parameter's name.
+				"KESSARMPUM target menu string.", // Parameter's description.
+				StringType, // Parameter's type.
+				kRequired, // kOptional or kRequired.
+			}
+		}
 
 		Method
 		{
