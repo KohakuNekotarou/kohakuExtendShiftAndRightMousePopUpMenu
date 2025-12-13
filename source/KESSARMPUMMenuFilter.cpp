@@ -17,11 +17,8 @@
 CREATE_PMINTERFACE(KESSARMPUMMenuFilter, kKESSARMPUMMenuFilterImpl)
 
 // Class variable
-bool16 KESSARMPUMMenuFilter::bool16_dynamicMenuExperience = kFalse;
 std::vector<ActionID> KESSARMPUMMenuFilter::vector_ActionID_actionID = {};
 std::vector<PMString> KESSARMPUMMenuFilter::vector_PMString_menuPath = {};
-std::vector<ActionID> KESSARMPUMMenuFilter::vector_ActionID_ShiftAndRtMousePopUpMenuItemActionID = {};
-std::vector<PMString> KESSARMPUMMenuFilter::vector_PMString_ShiftAndRtMousePopUpMenuSubMenuPath = {};
 
 // Constructor
 KESSARMPUMMenuFilter::KESSARMPUMMenuFilter(IPMUnknown* boss)
@@ -43,20 +40,33 @@ KESSARMPUMMenuFilter::KESSARMPUMMenuFilter(IPMUnknown* boss)
 			kKESSARMPUMRtMouseDefaultDynMnuPlaceholderActionID // ActionID
 		);
 
+		iMenuManager->RemoveMenuItem(
+			"RtMouseLayout", // Menu path
+			kKESSARMPUMRtMouseLayoutDynMnuPlaceholderActionID // ActionID
+		);
+
+		iMenuManager->RemoveMenuItem(
+			"RtMouseText", // Menu path
+			kKESSARMPUMRtMouseTextDynMnuPlaceholderActionID // ActionID
+		);
+
 	} while (false);
 }
 
 void KESSARMPUMMenuFilter::FilterMenuItem(
 	ActionID* actionID, PMString* menuPath, PMReal* menuPos, bool16 isDynamic, bool16 isOwnerDraw)
 {
-	/*
 	// Query menu
 	// Plug-IN first only
-	if (menuPath->Contains("RtMouseDefault"))
+	//if (menuPath->Contains("RtMouseDefault"))
+	if (menuPath->Contains("RtMouseLayout"))
+	//if (menuPath->Contains("RtMouseText"))
 	{
 		// Not DynamicMenuActionID
 		PMString pMString_contains = *menuPath;
 		if (actionID->Get() != kKESSARMPUMRtMouseDefaultDynMnuPlaceholderActionID
+			&& actionID->Get() != kKESSARMPUMRtMouseLayoutDynMnuPlaceholderActionID
+			&& actionID->Get() != kKESSARMPUMRtMouseTextDynMnuPlaceholderActionID
 			&& pMString_contains.Contains("-") == kFalse)
 		{
 			if (actionID->Get() == kInvalidActionID) // Sub menu
@@ -66,5 +76,4 @@ void KESSARMPUMMenuFilter::FilterMenuItem(
 			else KESSARMPUMMenuFilter::vector_ActionID_actionID.push_back(*actionID); // Menu item
 		}
 	}
-	*/
 }

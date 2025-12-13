@@ -212,8 +212,8 @@ resource VersionedScriptElementInfo(2)
 
 				// SetMenuItem
 				// targetMenu = "RtMouseDefault";
-				// app.menuActions.itemByID(271).kessarmpumSetMenuItem(targetMenu);
-				Method{ kKESSARMPUMSetMenuItemMethodScriptElement },
+				// app.menuActions.itemByID(271).kessarmpumSetShiftRtMouseMenuItem(targetMenu);
+				Method{ kKESSARMPUMSetShiftRtMouseMenuItemMethodScriptElement },
 
 				// ---------------------------------------------------------------------------------------
 				Object{ kSubmenuObjectScriptElement },
@@ -221,9 +221,9 @@ resource VersionedScriptElementInfo(2)
 				// SetMenuItem
 				// targetMenu = "RtMouseDefault";
 				// subMenuName = "Display Performance";
-				// app.menus.item(95).submenus.itemByName(subMenuName).kessarmpumSetSubMenu(targetMenu);
+				// app.menus.item("$ID/RtMouseDefault").submenus.itemByName(subMenuName).kessarmpumSetShiftRtMouseSubMenu(targetMenu);
 
-				Method{ kKESSARMPUMSetSubMenuMethodScriptElement },
+				Method{ kKESSARMPUMSetShiftRtMouseSubMenuMethodScriptElement },
 
 				// ---------------------------------------------------------------------------------------
 				Object{ kApplicationObjectScriptElement },
@@ -244,9 +244,9 @@ resource VersionedScriptElementInfo(2)
 
 		Method
 		{
-			kKESSARMPUMSetMenuItemMethodScriptElement,
-			e_KESSARMPUMSetMenuItem,
-			"KESSARMPUM set menu item",
+			kKESSARMPUMSetShiftRtMouseMenuItemMethodScriptElement,
+			e_KESSARMPUMSetShiftRtMouseMenuItem,
+			"KESSARMPUM set shift rt mouse menu item",
 			"KESSARMPUM set shift and right mouse button pop up menu item.",
 			VoidType,
 			{
@@ -260,9 +260,9 @@ resource VersionedScriptElementInfo(2)
 
 		Method
 		{
-			kKESSARMPUMSetSubMenuMethodScriptElement,
-			e_KESSARMPUMSetSubMenu,
-			"KESSARMPUM set sub menu",
+			kKESSARMPUMSetShiftRtMouseSubMenuMethodScriptElement,
+			e_KESSARMPUMSetShiftRtMouseSubMenu,
+			"KESSARMPUM set shift rt mouse sub menu",
 			"KESSARMPUM set shift and right mouse button pop up sub menu.",
 			VoidType,
 			{

@@ -41,14 +41,33 @@ uint32 KESSARMPUMIdleTask::RunTask(uint32 appFlags, IdleTimer* timeCheck)
 		if (iMenuCustomizationData == nil) break;
 
 		bool16 bool16_show = kTrue;
-		KESSARMPUMDynamicMenu::SetMenuCustomizationData(
-			KESSARMPUMDynamicMenu::vector_ActionID_RtMouseDefaultMenuItemActionID,
-			KESSARMPUMDynamicMenu::vector_PMString_RtMouseDefaultSubMenuPath,
-			KESSARMPUMDynamicMenu::vector_ActionID_ShiftRtMouseDefaultMenuItemActionID,
-			KESSARMPUMDynamicMenu::vector_PMString_ShiftRtMouseDefaultSubMenuPath,
-			iMenuCustomizationData,
-			bool16_show
-		);
+		switch (KESSARMPUMDynamicMenu::enum_PopUpMenuName)
+		{
+			case KESSARMPUMDynamicMenu::kKESSARMPUMRtMouseDefault: // RtMouseDefault
+			{
+				KESSARMPUMDynamicMenu::SetMenuCustomizationData(
+					KESSARMPUMDynamicMenu::vector_ActionID_RtMouseDefaultMenuItemActionID,
+					KESSARMPUMDynamicMenu::vector_PMString_RtMouseDefaultSubMenuPath,
+					KESSARMPUMDynamicMenu::vector_ActionID_ShiftRtMouseDefaultMenuItemActionID,
+					KESSARMPUMDynamicMenu::vector_PMString_ShiftRtMouseDefaultSubMenuPath,
+					iMenuCustomizationData,
+					bool16_show
+				);
+				break;
+			}
+			case KESSARMPUMDynamicMenu::kKESSARMPUMRtMouseLayout: // RtMouseLayout
+			{
+				KESSARMPUMDynamicMenu::SetMenuCustomizationData(
+					KESSARMPUMDynamicMenu::vector_ActionID_RtMouseLayoutMenuItemActionID,
+					KESSARMPUMDynamicMenu::vector_PMString_RtMouseLayoutSubMenuPath,
+					KESSARMPUMDynamicMenu::vector_ActionID_ShiftRtMouseLayoutMenuItemActionID,
+					KESSARMPUMDynamicMenu::vector_PMString_ShiftRtMouseLayoutSubMenuPath,
+					iMenuCustomizationData,
+					bool16_show
+				);
+				break;
+			}
+		}
 
 		CmdUtils::ProcessCommand(iCommand);
 

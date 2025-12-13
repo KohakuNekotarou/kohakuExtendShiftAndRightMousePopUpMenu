@@ -18,6 +18,10 @@
 #include "KESSARMPUMDynamicMenu.h"
 #include "KESSARMPUMScriptProvider.h"
 
+
+
+#include "KESSARMPUMMenuFilter.h"
+
 // CREATE_PMINTERFACE
 CREATE_PMINTERFACE(KESSARMPUMScriptProvider, kKESSARMPUMScriptProviderImpl)
 
@@ -33,13 +37,13 @@ ErrorCode KESSARMPUMScriptProvider::HandleMethod(
 
 	switch (scriptID.Get())
 	{
-		case e_KESSARMPUMSetMenuItem:
-			status = this->SetShiftRightMouseButtonPopUpMenuItem(
+		case e_KESSARMPUMSetShiftRtMouseMenuItem:
+			status = this->SetShiftRtMouseMenuItem(
 				scriptID, iScriptRequestData, iScript_parent);
 			break;
 
-		case e_KESSARMPUMSetSubMenu:
-			status = this->SetShiftRightMouseButtonPopUpSubMenu(
+		case e_KESSARMPUMSetShiftRtMouseSubMenu:
+			status = this->SetShiftRtMouseButtonPopUpSubMenu(
 				scriptID, iScriptRequestData, iScript_parent);
 			break;
 
@@ -76,7 +80,7 @@ ErrorCode KESSARMPUMScriptProvider::AccessProperty(
 	return status;
 }
 
-ErrorCode KESSARMPUMScriptProvider::SetShiftRightMouseButtonPopUpMenuItem(
+ErrorCode KESSARMPUMScriptProvider::SetShiftRtMouseMenuItem(
 	ScriptID scriptID, IScriptRequestData* iScriptRequestData, IScript* iScript_parent)
 {
 	ErrorCode status = kFailure;
@@ -91,7 +95,9 @@ ErrorCode KESSARMPUMScriptProvider::SetShiftRightMouseButtonPopUpMenuItem(
 
 		if (scriptData.GetPMString(pMString_TargetMenu) == kFailure) break;
 
-		if (pMString_TargetMenu != "RtMouseDefault") break;
+		if (pMString_TargetMenu != "RtMouseDefault"
+			&& pMString_TargetMenu != "RtMouseLayout"
+			) break;
 
 		// ---------------------------------------------------------------------------------------
 		// Query actionID
@@ -102,6 +108,13 @@ ErrorCode KESSARMPUMScriptProvider::SetShiftRightMouseButtonPopUpMenuItem(
 		int32 int32_menuItemActionID;
 		scriptData.GetInt32(&int32_menuItemActionID);
 		ActionID actionID(int32_menuItemActionID);
+
+
+
+
+
+
+
 
 		// ---------------------------------------------------------------------------------------
 		// Set actionID
@@ -117,13 +130,20 @@ ErrorCode KESSARMPUMScriptProvider::SetShiftRightMouseButtonPopUpMenuItem(
 			KESSARMPUMDynamicMenu::vector_ActionID_ShiftRtMouseDefaultMenuItemActionID.push_back(actionID);
 		}
 
+
+
+
+
+
+
+
 		status = kSuccess;
 	} while (false);
 
 	return status;
 }
 
-ErrorCode KESSARMPUMScriptProvider::SetShiftRightMouseButtonPopUpSubMenu(
+ErrorCode KESSARMPUMScriptProvider::SetShiftRtMouseButtonPopUpSubMenu(
 	ScriptID scriptID, IScriptRequestData* iScriptRequestData, IScript* iScript_parent)
 {
 	ErrorCode status = kFailure;
@@ -232,6 +252,23 @@ ErrorCode KESSARMPUMScriptProvider::RemoveShiftRightMouseButtonPopUpMenu()
 		KESSARMPUMDynamicMenu::vector_ActionID_ShiftRtMouseDefaultMenuItemActionID.clear();
 		KESSARMPUMDynamicMenu::vector_PMString_ShiftRtMouseDefaultSubMenuPath.clear();
 
+		KESSARMPUMDynamicMenu::vector_ActionID_ShiftRtMouseLayoutMenuItemActionID.clear();
+		KESSARMPUMDynamicMenu::vector_PMString_ShiftRtMouseLayoutSubMenuPath.clear();
+
+		KESSARMPUMDynamicMenu::vector_ActionID_ShiftRtMouseTextMenuItemActionID.clear();
+		KESSARMPUMDynamicMenu::vector_PMString_ShiftRtMouseTextSubMenuPath.clear();
+
+		// ---------------------------------------------------------------------------------------
+		// Query Manager
+		InterfacePtr<IApplication> iApplication(GetExecutionContextSession()->QueryApplication());
+		if (iApplication == nil) break;
+
+		InterfacePtr<IActionManager> iActionManager(iApplication->QueryActionManager());
+		if (iActionManager == nil) break;
+
+		InterfacePtr<IMenuManager> iMenuManager(iActionManager, UseDefaultIID());
+		if (iMenuManager == nil) break;
+
 		
 
 
@@ -267,6 +304,48 @@ ErrorCode KESSARMPUMScriptProvider::IsShiftRightMouseButtonPopUpMenu(
 	ScriptID scriptID, IScriptRequestData* iScriptRequestData, IScript* iScript_parent)
 {
 	ErrorCode status = kFailure;
+
+
+
+
+
+
+
+	/*
+	PMString result, num;
+	for (ActionID actionID : KESSARMPUMMenuFilter::vector_ActionID_actionID)
+	{
+		num.AsNumber(actionID.Get());
+		result.Append(num);
+		result.Append(",\n");
+	}
+
+	CAlert::InformationAlert(result);
+
+	result = "";
+
+	for (PMString pMString : KESSARMPUMMenuFilter::vector_PMString_menuPath)
+	{
+		result.Append(pMString);
+		result.Append(",\n");
+	}
+
+	CAlert::InformationAlert(result);
+	*/
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	do
 	{
@@ -325,26 +404,3 @@ void KESSARMPUMScriptProvider::RemoveActionAndMenu(
 
 	iMenuManager->RemoveMenuItem(menuPath, actionID);
 }
-
-
-/*
-// Query ActionID & Menu path
-// Plug-In first Onry
-PMString pMString_actionID;
-for (int32 i = 0; i < KESSARMPUMMenuFilter::vector_ActionID_actionID.size(); i++)
-{
-	PMString pMString_num;
-	pMString_num.AsNumber(KESSARMPUMMenuFilter::vector_ActionID_actionID[i].Get());
-	pMString_actionID.Append(pMString_num);
-	pMString_actionID.Append("\n");
-}
-CAlert::InformationAlert(pMString_actionID);
-
-PMString pMString_menuPath;
-for (int32 i = 0; i < KESSARMPUMMenuFilter::vector_PMString_menuPath.size(); i++)
-{
-	pMString_menuPath.Append(KESSARMPUMMenuFilter::vector_PMString_menuPath[i]);
-	pMString_menuPath.Append("\n");
-}
-CAlert::InformationAlert(pMString_menuPath);
-*/

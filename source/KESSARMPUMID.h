@@ -73,11 +73,11 @@ DECLARE_PMID(kActionIDSpace, kKESSARMPUMRtMouseTextDynMnuPlaceholderActionID, kK
 //DECLARE_PMID(kWidgetIDSpace, kKESSARMPUMWidgetID, kKESSARMPUMPrefix + 2)
 
 //Script Element IDs
-DECLARE_PMID(kScriptInfoIDSpace, kKESSARMPUMSetMenuItemMethodScriptElement, kKESSARMPUMPrefix + 0)
+DECLARE_PMID(kScriptInfoIDSpace, kKESSARMPUMSetShiftRtMouseMenuItemMethodScriptElement, kKESSARMPUMPrefix + 0)
 DECLARE_PMID(kScriptInfoIDSpace, kKESSARMPUMRemoveMethodScriptElement, kKESSARMPUMPrefix + 1)
 DECLARE_PMID(kScriptInfoIDSpace, kKESSARMPUMIsPropertyScriptElement, kKESSARMPUMPrefix + 2)
 DECLARE_PMID(kScriptInfoIDSpace, kKESSARMPUMInstallMethodScriptElement, kKESSARMPUMPrefix + 3)
-DECLARE_PMID(kScriptInfoIDSpace, kKESSARMPUMSetSubMenuMethodScriptElement, kKESSARMPUMPrefix + 4)
+DECLARE_PMID(kScriptInfoIDSpace, kKESSARMPUMSetShiftRtMouseSubMenuMethodScriptElement, kKESSARMPUMPrefix + 4)
 
 // "About Plug-ins" sub-menu:
 #define kKESSARMPUMAboutMenuKey			kKESSARMPUMStringPrefix "kKESSARMPUMAboutMenuKey"

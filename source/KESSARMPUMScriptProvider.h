@@ -24,10 +24,10 @@ public:
 
 private:
 
-	ErrorCode SetShiftRightMouseButtonPopUpMenuItem(
+	ErrorCode SetShiftRtMouseMenuItem(
 		ScriptID scriptID, IScriptRequestData* iScriptRequestData, IScript* iScript_parent);
 
-	ErrorCode SetShiftRightMouseButtonPopUpSubMenu(
+	ErrorCode SetShiftRtMouseButtonPopUpSubMenu(
 		ScriptID scriptID, IScriptRequestData* iScriptRequestData, IScript* iScript_parent);
 
 	ErrorCode InstallShiftRightMouseButtonPopUpMenu();
